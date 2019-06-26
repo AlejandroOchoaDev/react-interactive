@@ -6,37 +6,48 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: [
-        {
-          title: 'Perejil',
-          subtitle: 'Alaska Malamute',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false
-        },
-        {
-          title: 'Nita',
-          subtitle: 'Pitbull',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false
-        },
-        {
-          title: 'Copito',
-          subtitle: 'Gato',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false
-        },
-      ],
+      list: [],
     };
   }
 
   onClick(index)
   {
     const list = this.state.list.map((pet,petIndex)=>{
-      if (index === petIndex) return {...pet,adopt:true}
+      if (index === petIndex) {
+
+      return {...pet,adopt:true}
+    }
       return pet
     })
     this.setState({list})
   }
+
+  async componentDidMount(){
+    const response =await fetch('http://localhost:8080/pets/');
+    const { payload } = await response.json();
+    
+    console.log(payload.allPets);
+    
+    const list = payload.allPets.map((pet)=>{
+      const{
+        name: title,
+        breed:subtitle,
+        photo:img,
+        isAdopt: adopt
+      }=pet;
+
+      return {
+        title,
+        subtitle,
+        img,
+        adopt
+      };
+    })
+
+    this.setState({ list });
+    
+  }
+
 
   render() {
     const cards = this.state.list.map((petInfo, index) => (
