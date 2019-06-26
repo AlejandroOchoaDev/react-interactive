@@ -29,13 +29,24 @@ class Index extends Component {
     };
   }
 
+  onClick(index)
+  {
+    const list = this.state.list.map((pet,petIndex)=>{
+      if (index === petIndex) return {...pet,adopt:true}
+      return pet
+    })
+    this.setState({list})
+  }
+
   render() {
-    const cards = this.state.list.map((petInfo, index, onClick) => (
+    const cards = this.state.list.map((petInfo, index) => (
       <div
         className="col-md-4"
         key={index}
       >
-        <Card {...petInfo}/>
+        <Card
+        onClick={this.onClick.bind(this, index)}
+        {...petInfo}/>
       </div>
     ));
 

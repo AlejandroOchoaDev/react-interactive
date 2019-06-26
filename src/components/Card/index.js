@@ -7,7 +7,7 @@ import Button from '../Button';
 function  Card ({ title, subtitle, img, adopt, onClick }) {
  const adopted= !adopt
   ?
-  <Button text="Adoptar" />
+  <Button onClick={onClick} text="Adoptar" />
   :
   'Esta adoptado'
   return (
